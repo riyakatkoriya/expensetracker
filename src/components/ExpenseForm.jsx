@@ -1,10 +1,14 @@
 
 import { useState } from "react";
 import "../styles/ExpenseForm.css";
-;
+import {v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 export default function ExpenseForm() {
+    const navigate = useNavigate();
     const [fromData, setfromData] = useState({
         amount: "",
         description: '',
@@ -29,7 +33,7 @@ export default function ExpenseForm() {
             newErrors.amount = 'Enter an amount greater than 0';
         }
         if (!fromData.description.trim()) {
-            newErrors.description = 'Description is reuired';
+            newErrors.description = 'Description is required';
         }
         if (!fromData.date) {
             newErrors.date = 'Date is required';
@@ -45,8 +49,11 @@ export default function ExpenseForm() {
         e.preventDefault();
         if (!validate()) return;
 
-        console.log("Expense Added Successully",
-            fromData.amount,fromData.description,fromData.date,fromData.category);
+
+        const expenses = JSON.parse(localStorage.getItem('expense') || '[]');
+        const newExpense = {...fromData, id: uuidv4() };
+        localStorage.setItem('expense',JSON.stringify([...expenses, newExpense]));
+        navigate('/');
     }
     return ( 
     <div className="expenseform">
@@ -56,7 +63,7 @@ export default function ExpenseForm() {
             <input
                 type="number"
                 name="amount"
-                placeholder="Enter ampount.."
+                placeholder="Enter amount.."
                 value={fromData.amount}
                 onChange={handleChange}
             />
