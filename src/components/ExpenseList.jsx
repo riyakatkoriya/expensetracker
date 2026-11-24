@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import "../styles/ExpenseList.css";
 import ConfirmationModal from "./ConfirmationModal";
 import EditModal from "./EditModal";
+import { useNavigate } from "react-router-dom";
 
 export default function ExpenseList() {
     const [expenses, setExpenses] = useState([]);
     const [deleteExpense, setDeleteExpense] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [editId, setEditId] = useState(null);
+    const navigate = useNavigate();
 
 
 
@@ -39,6 +41,10 @@ export default function ExpenseList() {
     const editHandler = (id) => {
         setEditId(id);
         setOpenModal(true);
+    };
+    // Read more handler
+    const handleReadMore = (id) => {
+        navigate(`/expenseDetails/${id}`);
     };
 
     return (
@@ -93,11 +99,13 @@ export default function ExpenseList() {
                                             onClick={() => setDeleteExpense(expense)}>
 
                                             Delete</button>
-                                        <button className="btn-edit"
+                                        <button 
                                             onClick={() => editHandler(expense.id)}
-                                            class="btn-edit">
+                                            className="btn-edit">
                                             Edit</button>
-                                        <button className="btn-readmore">View</button>
+                                        <button className="btn-readmore" onClick={() => handleReadMore(expense.id)}>
+                                            View
+                                        </button>
                                     </td>
                                 </tr>
                             ))) : (<>
@@ -129,7 +137,11 @@ export default function ExpenseList() {
                 />
             )}
             {openModal && editId !== null && (
-            <EditModal/>
+            <EditModal
+            editId={editId}
+            onClose={() => setOpenModal(false)}
+            onUpdate={loadExpenses}
+            />
             )}
         </>
 
