@@ -52,7 +52,7 @@
 }
 
 /* Back button */
-.btn-bback {
+.btn-back {
     display: block;
     margin: 30px auto 0;
     background: linear-gradient(135, #5A7ACD, #7B9BFF);

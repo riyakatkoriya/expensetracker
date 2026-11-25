@@ -1,6 +1,6 @@
 
 import ExpenseList from "../components/Expenselist";
-import Navbar from "../components/Navbar";
+
 
   function Homepage (){
     
@@ -8,7 +8,7 @@ import Navbar from "../components/Navbar";
 
     return(
         <>
-        <Navbar/>
+        
         <ExpenseList/>        
         </>
         
