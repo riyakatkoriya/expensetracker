@@ -5,13 +5,17 @@ import AddExpensepage from "./pages/AddExpensepage";
 import ExpenseDetails from "./components/ExpenseDetails";
 import Layout from "./Layout/Layout";
 import LoginPage from "./pages/LoginPage";
+import PrivateRoutes from "./auth/PrivateRoutes";
+import ExpenseItemspage from "./pages/ExpenseItemspage";
 
 function App() {
   const route=createBrowserRouter([
-    {path:"/",element:<Layout/>,
+    {path:"/",element:(<PrivateRoutes><Layout /></PrivateRoutes>
+  ),
     children:[
     {path:'/',element:<Homepage/>},
     {path:'/add-expense',element:<AddExpensepage/>},
+    {path:'/expense-items',element:<ExpenseItemspage/>},
     {path:'/expenseDetails/:id',element:<ExpenseDetails/>},
     
   ],

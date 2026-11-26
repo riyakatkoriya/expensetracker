@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function ExpenseList() {
     const [expenses, setExpenses] = useState([]);
+    const [filter, setFilter] = useState('all');
+    const [searchTerm, setSearchTerm] = useState('');
     const [deleteExpense, setDeleteExpense] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [editId, setEditId] = useState(null);
@@ -46,6 +48,22 @@ export default function ExpenseList() {
     const handleReadMore = (id) => {
         navigate(`/expenseDetails/${id}`);
     };
+    // Filtered expenses
+    const filteredExpenses = expenses.filter((item) => {
+        const matchesCategory = filter === 'all' || item.category === filter;
+        const matchesSearch =
+        item.description.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
+
+    //Handlers
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     return (
         <>
@@ -58,17 +76,22 @@ export default function ExpenseList() {
                         </p>
                     </div>
                     <div>
-                        <select>
-                            <option>All categories</option>
-                            <option>Food</option>
-                            <option>Travel</option>
-                            <option>Shopping</option>
-                            <option>Entertainment</option>
+                        <select value={filter} onChange={handleFilterChange}>
+    
+                            <option value="all">All categories</option>
+                            <option value="food">Food</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="Transportaion">Transportation</option>
+                            <option value="education">Education</option>
+                            <option value="phonebill">Phone Bill</option>
+                            <option value="entertainment">Entertainment</option>
                         </select>
 
                         <input
                             type="search"
                             placeholder="search expense..."
+                            value={searchTerm}
+                            onChange={handleSearchChange}
                         />
                     </div>
                 </div>
@@ -85,8 +108,8 @@ export default function ExpenseList() {
                     </thead>
 
                     <tbody>
-                        {expenses.length > 0 ?
-                            (expenses.map((expense) => (
+                        {filteredExpenses.length > 0 ?
+                            (filteredExpenses.map((expense) => (
                                 <tr key={expense.id}>
                                     <td>{expense.amount}</td>
                                     <td>{expense.description}</td>
