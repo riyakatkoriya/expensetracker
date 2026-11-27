@@ -1,19 +1,18 @@
 
 import ExpenseList from "../components/Expenselist";
+import { useTheme } from "../context/ThemeContext";
+import "../styles/HomePage.css"
 
 
   function Homepage (){
+    const { theme } = useTheme();
     
-  
-
-    return(
-        <>
+      return(
+        <main className={`home-page ${theme}`}>
+         <ExpenseList/>        
+        </main>
         
-        <ExpenseList/>        
-        </>
-        
-
-    );
+      )
 }
 
 export default Homepage;

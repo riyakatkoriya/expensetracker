@@ -1,12 +1,12 @@
 
-import{FaMoon} from 'react-icons/fa6';  
+import{FaMoon, FaSun} from 'react-icons/fa6';  
 import'../styles/Navbar.css';
 import { NavLink, useNavigate } from 'react-router-dom';   
-
-import'../styles/Navbar.css';
+import { useTheme } from '../context/ThemeContext';
 
 
 export default function Navbar(){
+    const { theme, toggleTheme } = useTheme();
 
 
     const navigate = useNavigate();
@@ -38,8 +38,12 @@ export default function Navbar(){
                     </ul>
                 </div>
                 <div className="nav-actions">
-                    <button type="button"className="theme-toggle">
-                        <FaMoon/>
+                    <button type="button"
+                    className="theme-toggle"
+                    onClick={toggleTheme}
+                    >
+                        
+                        {theme === 'light' ? <FaMoon /> : <FaSun />}
                         </button>
 
 
